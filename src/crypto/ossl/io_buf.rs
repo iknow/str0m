@@ -44,6 +44,8 @@ impl io::Read for IoBuffer {
             self.incoming.truncate(0);
         } else {
             // Shifting data inside a vector is not good. This should be rare.
+            // TODO(martin): remove this log line when we know whether this is a common case.
+            warn!("Data remaining in IoBuffer {}/{}", max, self.incoming.len());
             self.incoming.drain(..max);
         }
 
