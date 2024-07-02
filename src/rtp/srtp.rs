@@ -214,7 +214,7 @@ impl SrtpContext {
                 let mut output = vec![0; input.len()];
 
                 if let Err(e) = dec.decrypt(&iv, input, &mut output) {
-                    warn!("Failed to decrypt SRTP ({}): {:?}", self.rtp.profile(), e);
+                    debug!("Failed to decrypt SRTP ({}): {:?}", self.rtp.profile(), e);
                     return None;
                 };
 
@@ -239,7 +239,7 @@ impl SrtpContext {
                 match dec.decrypt(&iv, &[aad], input, &mut output) {
                     Ok(v) => v,
                     Err(e) => {
-                        warn!("Failed to decrypt SRTP ({}): {:?}", self.rtp.profile(), e);
+                        debug!("Failed to decrypt SRTP ({}): {:?}", self.rtp.profile(), e);
                         return None;
                     }
                 };
@@ -375,7 +375,7 @@ impl SrtpContext {
                 output[0..8].copy_from_slice(&buf[0..8]);
 
                 if let Err(e) = dec.decrypt(&iv, input, &mut output[8..]) {
-                    warn!("Failed to decrypt SRTCP ({}): {:?}", self.rtcp.profile(), e);
+                    debug!("Failed to decrypt SRTCP ({}): {:?}", self.rtcp.profile(), e);
                     return None;
                 }
 
@@ -439,7 +439,7 @@ impl SrtpContext {
                 let count = match dec.decrypt(&iv, &aads, input, &mut output[8..]) {
                     Ok(c) => c,
                     Err(e) => {
-                        warn!("Failed to decrypt SRTCP ({}): {:?}", self.rtcp.profile(), e);
+                        debug!("Failed to decrypt SRTCP ({}): {:?}", self.rtcp.profile(), e);
                         return None;
                     }
                 };
